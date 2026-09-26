@@ -10,6 +10,7 @@ def test_high_risk_demo_patient_gets_high_score():
         systolic_bp=80,
         spo2=85,
         clinical_severity=10,
+        required_ward="ICU",
     )
 
     result = prioritize_patient(patient)
@@ -26,6 +27,7 @@ def test_lower_risk_demo_patient():
         systolic_bp=120,
         spo2=98,
         clinical_severity=2,
+        required_ward="ICU",
     )
 
     result = prioritize_patient(patient)

@@ -9,7 +9,12 @@ class Patient(BaseModel):
     spo2: float = Field(gt=0, le=100)
     clinical_severity: float = Field(ge=0, le=10)
 
+    required_ward: str
+    needs_ventilator: bool = False
+    needs_oxygen: bool = False
+    needs_isolation: bool = False
 
+    
 class PrioritizedPatient(Patient):
     severity_score: float
     priority: str
