@@ -1,4 +1,12 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy.orm import Session
+
+from backend.database.db_models import PatientDB
+from backend.database.dependencies import get_db
+
+from backend.database.db_models import PatientDB
+from backend.database.dependencies import get_db
+
 
 from backend.algorithms.max_heap import MaxHeap
 from backend.models.patient import Patient
@@ -58,16 +66,41 @@ def health():
 
 
 @app.post("/patients")
-def add_patient(patient: Patient):
+def add_patient(
+    patient: Patient,
+    db: Session = Depends(get_db),
+):
     prioritized = prioritize_patient(patient)
+
     priority_queue.push(
         prioritized.model_dump(),
         prioritized.severity_score,
     )
+
+    patient_db = PatientDB(
+        patient_id=prioritized.patient_id,
+        age=prioritized.age,
+        heart_rate=prioritized.heart_rate,
+        systolic_bp=prioritized.systolic_bp,
+        spo2=prioritized.spo2,
+        clinical_severity=prioritized.clinical_severity,
+        required_ward=prioritized.required_ward,
+        needs_ventilator=prioritized.needs_ventilator,
+        needs_oxygen=prioritized.needs_oxygen,
+        needs_isolation=prioritized.needs_isolation,
+        severity_score=prioritized.severity_score,
+        priority=prioritized.priority,
+    )
+
+    db.add(patient_db)
+    db.commit()
+    db.refresh(patient_db)
+
     return {
         "event": "PATIENT_ADDED",
         "patient": prioritized.model_dump(),
         "queue_size": len(priority_queue),
+        "database_id": patient_db.id,
     }
 
 
