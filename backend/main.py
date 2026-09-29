@@ -1,4 +1,6 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
 from sqlalchemy.orm import Session
 
 from backend.algorithms.max_heap import MaxHeap
@@ -15,8 +17,20 @@ app = FastAPI(
     version="0.1.0",
 )
 
-priority_queue = MaxHeap[dict]()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+priority_queue = MaxHeap[dict]()
 
 @app.get("/")
 def root():
@@ -71,6 +85,45 @@ def add_patient(
     }
 
 
+
+@app.get("/patients")
+def get_patients(db: Session = Depends(get_db)):
+    patients = (
+        db.query(PatientDB)
+        .order_by(PatientDB.severity_score.desc())
+        .all()
+    )
+
+    critical_patients = sum(
+        1
+        for patient in patients
+        if patient.priority == "CRITICAL"
+    )
+
+    return {
+        "event": "PATIENT_STATUS",
+        "total_patients": len(patients),
+        "critical_patients": critical_patients,
+        "patients": [
+            {
+                "patient_id": patient.patient_id,
+                "age": patient.age,
+                "heart_rate": patient.heart_rate,
+                "systolic_bp": patient.systolic_bp,
+                "spo2": patient.spo2,
+                "clinical_severity": patient.clinical_severity,
+                "required_ward": patient.required_ward,
+                "needs_ventilator": patient.needs_ventilator,
+                "needs_oxygen": patient.needs_oxygen,
+                "needs_isolation": patient.needs_isolation,
+                "severity_score": patient.severity_score,
+                "priority": patient.priority,
+                "assigned_bed_id": patient.assigned_bed_id,
+            }
+            for patient in patients
+        ],
+    }
+
 @app.get("/queue/next")
 def get_next_patient():
     next_patient = priority_queue.peek()
@@ -109,26 +162,43 @@ def pop_next_patient():
 def get_beds(db: Session = Depends(get_db)):
     beds = db.query(BedDB).all()
 
+    bed_list = []
+
+    for bed in beds:
+        assigned_patient = (
+            db.query(PatientDB)
+            .filter(
+                PatientDB.assigned_bed_id == bed.bed_id
+            )
+            .first()
+        )
+
+        bed_list.append({
+            "bed_id": bed.bed_id,
+            "ward_type": bed.ward_type,
+            "status": bed.status,
+            "ventilator_available": bed.ventilator_available,
+            "oxygen_available": bed.oxygen_available,
+            "isolation_available": bed.isolation_available,
+            "assigned_patient_id": (
+                assigned_patient.patient_id
+                if assigned_patient
+                else None
+            ),
+        })
+
     return {
         "event": "BED_STATUS",
         "total_beds": len(beds),
         "available_beds": sum(
-            1 for bed in beds if bed.status == "AVAILABLE"
+            1 for bed in beds
+            if bed.status == "AVAILABLE"
         ),
         "occupied_beds": sum(
-            1 for bed in beds if bed.status == "OCCUPIED"
+            1 for bed in beds
+            if bed.status == "OCCUPIED"
         ),
-        "beds": [
-            {
-                "bed_id": bed.bed_id,
-                "ward_type": bed.ward_type,
-                "status": bed.status,
-                "ventilator_available": bed.ventilator_available,
-                "oxygen_available": bed.oxygen_available,
-                "isolation_available": bed.isolation_available,
-            }
-            for bed in beds
-        ],
+        "beds": bed_list,
     }
 
 
@@ -137,6 +207,7 @@ def release_bed(
     bed_id: str,
     db: Session = Depends(get_db),
 ):
+    # Find the bed in PostgreSQL.
     bed = (
         db.query(BedDB)
         .filter(BedDB.bed_id == bed_id)
@@ -149,15 +220,29 @@ def release_bed(
             detail="Bed not found",
         )
 
-    if bed.status == "AVAILABLE":
+    # Check whether the bed is currently occupied.
+    if bed.status != "OCCUPIED":
         raise HTTPException(
             status_code=409,
-            detail="Bed is already available",
+            detail="Bed is not currently occupied",
         )
 
+    # Find the patient assigned to this bed.
+    patient = (
+        db.query(PatientDB)
+        .filter(PatientDB.assigned_bed_id == bed_id)
+        .first()
+    )
+
+    # Release the bed.
     bed.status = "AVAILABLE"
 
+    # Remove the patient's bed assignment.
+    if patient:
+        patient.assigned_bed_id = None
+
     db.commit()
+
     db.refresh(bed)
 
     return {
@@ -170,29 +255,49 @@ def release_bed(
             "oxygen_available": bed.oxygen_available,
             "isolation_available": bed.isolation_available,
         },
+        "released_patient_id": (
+            patient.patient_id if patient else None
+        ),
     }
-
 
 @app.post("/beds/allocate/{patient_id}")
 def allocate_patient_bed(
     patient_id: str,
     db: Session = Depends(get_db),
 ):
-    # Find the patient in the priority queue.
-    patient_data = None
+    # Find patient in PostgreSQL.
+    patient_db = (
+        db.query(PatientDB)
+        .filter(PatientDB.patient_id == patient_id)
+        .first()
+    )
 
-    for item in priority_queue._heap:
-        if item.item["patient_id"] == patient_id:
-            patient_data = item.item
-            break
-
-    if patient_data is None:
+    if patient_db is None:
         raise HTTPException(
             status_code=404,
-            detail="Patient not found in priority queue",
+            detail="Patient not found",
         )
 
-    patient = Patient(**patient_data)
+    # Check if patient already has a bed.
+    if patient_db.assigned_bed_id is not None:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Patient already has bed {patient_db.assigned_bed_id}",
+        )
+
+    # Convert database patient to Patient model.
+    patient = Patient(
+        patient_id=patient_db.patient_id,
+        age=patient_db.age,
+        heart_rate=patient_db.heart_rate,
+        systolic_bp=patient_db.systolic_bp,
+        spo2=patient_db.spo2,
+        clinical_severity=patient_db.clinical_severity,
+        required_ward=patient_db.required_ward,
+        needs_ventilator=patient_db.needs_ventilator,
+        needs_oxygen=patient_db.needs_oxygen,
+        needs_isolation=patient_db.needs_isolation,
+    )
 
     # Get available beds from PostgreSQL.
     available_beds = (
@@ -205,7 +310,6 @@ def allocate_patient_bed(
     selected_bed = None
 
     for bed_db in available_beds:
-        # Convert database bed to the model expected by the allocator.
         from backend.models.bed import Bed
 
         bed = Bed(
@@ -227,15 +331,22 @@ def allocate_patient_bed(
             detail="No compatible bed available",
         )
 
-    # Update PostgreSQL.
+    # Update bed status.
     selected_bed.status = "OCCUPIED"
 
+    # Store allocation in patient record.
+    patient_db.assigned_bed_id = selected_bed.bed_id
+
+    # Save both changes.
     db.commit()
+
     db.refresh(selected_bed)
+    db.refresh(patient_db)
 
     return {
         "event": "BED_ALLOCATED",
         "patient_id": patient_id,
+        "allocated_bed": selected_bed.bed_id,
         "bed": {
             "bed_id": selected_bed.bed_id,
             "ward_type": selected_bed.ward_type,
