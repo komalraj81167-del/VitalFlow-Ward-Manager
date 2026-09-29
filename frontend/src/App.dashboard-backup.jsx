@@ -1,21 +1,9 @@
 import { useEffect, useState } from "react";
-
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-
-import MainLayout from "./layouts/MainLayout";
-import Login from "./pages/Login";
-import EmergencyTriage from "./pages/EmergencyTriage";;
-
 import "./App.css";
 
 const API_URL = "http://localhost:8000";
 
-function Dashboard() {
+function App() {
   const [bedData, setBedData] = useState(null);
   const [patientData, setPatientData] = useState(null);
 
@@ -603,49 +591,6 @@ const handleAllocateBed = async (patientId) => {
       </footer>
 
     </div>
-  );
-}
-
-function App() {
-  const user = localStorage.getItem("vitalflow_user");
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* Login Page */}
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        {/* Protected Application */}
-        <Route
-          path="/"
-          element={
-            user ? (
-              <MainLayout />
-            ) : (
-              <Navigate
-                to="/login"
-                replace
-              />
-            )
-          }
-        >
-          {/* Dashboard */}
-          <Route
-            index
-            element={<Dashboard />}
-          />
-
-          {/* Emergency Triage */}
-          <Route
-            path="triage"
-            element={<EmergencyTriage />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
   );
 }
 
