@@ -1,0 +1,438 @@
+.simulation-page {
+  padding: 28px;
+  min-height: 100%;
+  background: #f6f8fb;
+  color: #172033;
+}
+
+.simulation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.simulation-eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+  color: #2563eb;
+  margin-bottom: 7px;
+}
+
+.simulation-header h1 {
+  margin: 0;
+  font-size: 29px;
+  font-weight: 800;
+}
+
+.simulation-header p {
+  margin: 7px 0 0;
+  color: #6b7280;
+}
+
+.simulation-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 20px;
+  background: white;
+  border: 1px solid #e1e6ee;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #9ca3af;
+}
+
+.status-dot.running {
+  background: #10b981;
+}
+
+/* CARDS */
+
+.simulation-card {
+  background: white;
+  border: 1px solid #e3e7ee;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.scenario-section {
+  margin-bottom: 18px;
+}
+
+.section-title {
+  margin-bottom: 20px;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.section-title p {
+  margin: 5px 0 0;
+  color: #8a94a6;
+  font-size: 12px;
+}
+
+/* SCENARIOS */
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.scenario-button {
+  text-align: left;
+  border: 1px solid #e1e6ee;
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.scenario-button:hover {
+  border-color: #9db7ed;
+}
+
+.scenario-button.selected {
+  border: 2px solid #2563eb;
+  background: #eff6ff;
+}
+
+.scenario-button strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.scenario-button span {
+  display: block;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.scenario-button small {
+  display: block;
+  margin-top: 12px;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* CONTROLS */
+
+.simulation-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.simulation-controls button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.start-button {
+  background: #2563eb;
+  color: white;
+}
+
+.pause-button {
+  background: #f59e0b;
+  color: white;
+}
+
+.reset-button {
+  background: #eef1f5;
+  color: #374151;
+}
+
+.elapsed-time {
+  margin-left: auto;
+  color: #7c8799;
+  font-size: 12px;
+}
+
+.elapsed-time strong {
+  color: #172033;
+}
+
+/* KPI */
+
+.simulation-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.simulation-kpi {
+  background: white;
+  border: 1px solid #e3e7ee;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.simulation-kpi span {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.simulation-kpi strong {
+  display: block;
+  font-size: 29px;
+  margin-top: 7px;
+}
+
+.simulation-kpi small {
+  display: block;
+  color: #9ca3af;
+  margin-top: 7px;
+}
+
+/* MAIN */
+
+.simulation-main-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+/* CAPACITY */
+
+.capacity-display {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.capacity-ring {
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.capacity-ring > div {
+  width: 108px;
+  height: 108px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.capacity-ring strong {
+  font-size: 27px;
+}
+
+.capacity-ring span {
+  color: #8a94a6;
+  font-size: 11px;
+}
+
+.capacity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.capacity-info span {
+  display: block;
+  color: #8a94a6;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.capacity-info strong {
+  font-size: 17px;
+}
+
+.pressure-low {
+  color: #10b981;
+}
+
+.pressure-moderate {
+  color: #2563eb;
+}
+
+.pressure-high {
+  color: #f59e0b;
+}
+
+.pressure-critical {
+  color: #dc2626;
+}
+
+/* IMPACT */
+
+.impact-row {
+  margin-bottom: 21px;
+}
+
+.impact-row:last-child {
+  margin-bottom: 0;
+}
+
+.impact-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.impact-top strong {
+  color: #374151;
+}
+
+.impact-bar {
+  height: 9px;
+  background: #edf0f4;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.impact-bar div {
+  height: 100%;
+  background: #2563eb;
+  border-radius: inherit;
+}
+
+/* EVENTS */
+
+.event-card {
+  min-height: 300px;
+}
+
+.empty-events {
+  padding: 45px 10px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.event-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.event-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  background: #2563eb;
+  flex-shrink: 0;
+}
+
+.event-dot.critical {
+  background: #dc2626;
+}
+
+.event-row strong {
+  display: block;
+  font-size: 12px;
+}
+
+.event-row small {
+  display: block;
+  margin-top: 3px;
+  color: #9ca3af;
+}
+
+/* RESPONSE */
+
+.response-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.response-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #edf0f4;
+  font-size: 13px;
+}
+
+.response-row:last-child {
+  border-bottom: 0;
+}
+
+.response-row strong {
+  font-size: 12px;
+  color: #4b5563;
+}
+
+/* NOTICE */
+
+.simulation-notice {
+  margin-top: 18px;
+  padding: 12px 15px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  color: #92400e;
+  font-size: 11px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+  .scenario-grid,
+  .simulation-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .simulation-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .scenario-grid,
+  .simulation-kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .simulation-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .simulation-controls {
+    flex-wrap: wrap;
+  }
+
+  .elapsed-time {
+    width: 100%;
+    margin-left: 0;
+  }
+}

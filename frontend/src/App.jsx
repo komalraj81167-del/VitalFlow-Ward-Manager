@@ -10,8 +10,18 @@ import {
 import MainLayout from "./layouts/MainLayout";
 import Login from "./pages/Login";
 import EmergencyTriage from "./pages/EmergencyTriage";
-
+import Resources from "./pages/Resources";
+import Patients from "./pages/Patients";
+import Alerts from "./pages/Alerts";
 import BedManagement from "./pages/BedManagement";
+import SmartBedAllocation from "./pages/SmartBedAllocation";
+import HospitalFloorMap from "./pages/HospitalFloorMap";
+import Predictions from "./pages/Predictions";
+import Analytics from "./pages/Analytics";    
+import Simulation from "./pages/Simulation";
+import AuditLogs from "./pages/AuditLogs";
+import Integration from "./pages/Integration";
+import Settings from "./pages/Settings";
 
 import "./App.css";
 
@@ -650,6 +660,42 @@ function App() {
             path="beds"
             element={<BedManagement />}
           />
+
+          <Route
+            path="allocation"
+            element={<SmartBedAllocation />}
+          />  
+
+          <Route
+            path="patients"
+            element={<Patients />}
+          />
+
+          <Route
+  path="resources"
+  element={<Resources />}
+/>
+
+<Route
+  path="alerts"
+  element={<Alerts />}
+/>
+<Route
+  path="floor-map"
+  element={<HospitalFloorMap />}
+/>
+
+<Route
+  path="predictions"
+  element={<Predictions />}
+/>
+
+<Route path="analytics" element={<Analytics />} />
+<Route path="alerts" element={<Alerts />} />
+<Route path="simulation" element={<Simulation />} />
+<Route path="audit-logs" element={<AuditLogs />} />
+<Route path="integration" element={<Integration />} />
+<Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     </BrowserRouter>

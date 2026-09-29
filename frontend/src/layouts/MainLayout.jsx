@@ -9,6 +9,10 @@ const navigation = [
   { path: "/allocation", label: "Smart Bed Allocation" },
   { path: "/patients", label: "Patients" },
   { path: "/resources", label: "Resources" },
+  {
+  label: "Alerts",
+  path: "/alerts",
+},
   { path: "/predictions", label: "Predictions" },
   { path: "/analytics", label: "Analytics" },
   { path: "/simulation", label: "Simulation" },
@@ -46,6 +50,8 @@ function MainLayout() {
                 {item.label}
               </NavLink>
             ))}
+
+ 
           </nav>
         </div>
 

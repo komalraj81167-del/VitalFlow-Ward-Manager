@@ -1,0 +1,531 @@
+.patients-page {
+  padding: 30px;
+  color: #e8eef7;
+}
+
+.patients-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.patients-header h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+}
+
+.patients-header p {
+  margin: 0;
+  color: #8e9bad;
+}
+
+.add-patient-button,
+.submit-button {
+  border: none;
+  border-radius: 8px;
+  padding: 11px 18px;
+  background: #2563eb;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.add-patient-button:hover,
+.submit-button:hover {
+  background: #1d4ed8;
+}
+
+.patients-message {
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: #132b22;
+  border: 1px solid #245b43;
+  color: #7ee2ae;
+}
+
+.patient-summary {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.patient-summary-card {
+  padding: 18px;
+  border: 1px solid #263244;
+  border-radius: 12px;
+  background: #111927;
+}
+
+.patient-summary-card span {
+  display: block;
+  color: #8996a8;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.patient-summary-card strong {
+  font-size: 26px;
+}
+
+.patient-summary-card.critical {
+  border-left: 4px solid #ef4444;
+}
+
+.patient-summary-card.high {
+  border-left: 4px solid #f97316;
+}
+
+.patient-summary-card.admitted {
+  border-left: 4px solid #22c55e;
+}
+
+.patient-summary-card.waiting {
+  border-left: 4px solid #eab308;
+}
+
+.patient-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.patient-toolbar input,
+.patient-toolbar select {
+  height: 42px;
+  padding: 0 13px;
+  border: 1px solid #2b3749;
+  border-radius: 8px;
+  background: #111927;
+  color: #e8eef7;
+}
+
+.patient-toolbar input {
+  flex: 1;
+}
+
+.patient-toolbar select {
+  min-width: 160px;
+}
+
+.refresh-button {
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #172235;
+  color: #dce5f1;
+  padding: 0 17px;
+  cursor: pointer;
+}
+
+.patients-table-card {
+  background: #111927;
+  border: 1px solid #263244;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-heading {
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #263244;
+}
+
+.table-heading h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.table-heading span {
+  color: #8794a6;
+  font-size: 13px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.patients-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+.patients-table th {
+  text-align: left;
+  padding: 13px 14px;
+  font-size: 12px;
+  color: #8794a6;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #0d1521;
+  border-bottom: 1px solid #263244;
+}
+
+.patients-table td {
+  padding: 14px;
+  border-bottom: 1px solid #202b3b;
+  font-size: 13px;
+}
+
+.patients-table tbody tr:hover {
+  background: #151f2e;
+}
+
+.patient-id {
+  color: #67a7ff;
+  font-weight: 700;
+}
+
+.priority-badge {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.priority-critical {
+  color: #ff8d8d;
+  background: rgba(239, 68, 68, 0.14);
+}
+
+.priority-high {
+  color: #ffad73;
+  background: rgba(249, 115, 22, 0.14);
+}
+
+.priority-moderate {
+  color: #f2c96b;
+  background: rgba(234, 179, 8, 0.14);
+}
+
+.priority-low {
+  color: #7ee2ae;
+  background: rgba(34, 197, 94, 0.14);
+}
+
+.vital-warning {
+  color: #fbbf24;
+}
+
+.vital-danger {
+  color: #ff7070;
+  font-weight: 700;
+}
+
+.status-admitted,
+.status-waiting {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-admitted {
+  color: #69dc9c;
+}
+
+.status-waiting {
+  color: #f5c65d;
+}
+
+.view-button {
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 6px 11px;
+  background: #182334;
+  color: #9fc5ff;
+  cursor: pointer;
+}
+
+.view-button:hover {
+  background: #22314a;
+}
+
+.patients-empty {
+  padding: 70px 20px;
+  text-align: center;
+  color: #8794a6;
+}
+
+.empty-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.patients-empty h3 {
+  color: #dce5f1;
+  margin: 5px 0;
+}
+
+/* Modal */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(3, 7, 18, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+}
+
+.patient-modal,
+.add-patient-modal {
+  width: min(850px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #111927;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+}
+
+.add-patient-modal {
+  width: min(720px, 100%);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 22px;
+  border-bottom: 1px solid #263244;
+}
+
+.modal-label {
+  color: #6681a2;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.modal-header h2 {
+  margin: 5px 0 0;
+}
+
+.close-button {
+  border: none;
+  background: transparent;
+  color: #8794a6;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.patient-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 22px;
+}
+
+.detail-section {
+  padding: 17px;
+  border: 1px solid #263244;
+  border-radius: 10px;
+  background: #0d1521;
+}
+
+.detail-section h3 {
+  margin: 0 0 15px;
+  font-size: 14px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 9px 0;
+  border-bottom: 1px solid #202b3b;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row span {
+  color: #8794a6;
+}
+
+.vital-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.vital-grid div {
+  padding: 12px;
+  border-radius: 8px;
+  background: #151f2e;
+}
+
+.vital-grid span {
+  display: block;
+  color: #8794a6;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.resource-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.resource-tags span {
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: #1a2940;
+  color: #9fc5ff;
+  font-size: 12px;
+}
+
+.assignment-box {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.assignment-box span {
+  color: #8794a6;
+  font-size: 12px;
+}
+
+.modal-footer {
+  padding: 16px 22px;
+  border-top: 1px solid #263244;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  color: #68778c;
+  font-size: 11px;
+}
+
+.modal-footer button,
+.cancel-button {
+  border: 1px solid #334155;
+  border-radius: 7px;
+  padding: 9px 16px;
+  background: #182334;
+  color: #dce5f1;
+  cursor: pointer;
+}
+
+/* Add patient form */
+
+.add-patient-modal form {
+  padding: 22px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #aab6c6;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.form-grid input,
+.form-grid select {
+  height: 40px;
+  padding: 0 11px;
+  border: 1px solid #2b3749;
+  border-radius: 7px;
+  background: #0d1521;
+  color: #e8eef7;
+}
+
+.checkbox-section {
+  margin-top: 22px;
+}
+
+.checkbox-section h3 {
+  font-size: 14px;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 20px;
+  color: #b7c2d1;
+  font-size: 12px;
+}
+
+.checkbox-label input {
+  accent-color: #2563eb;
+}
+
+.form-warning {
+  margin-top: 20px;
+  padding: 11px 13px;
+  border: 1px solid #594b28;
+  border-radius: 7px;
+  background: #2a2517;
+  color: #d7bd68;
+  font-size: 11px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+  .patient-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .patient-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .patient-toolbar input {
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .patients-page {
+    padding: 18px;
+  }
+
+  .patients-header {
+    align-items: flex-start;
+    gap: 15px;
+    flex-direction: column;
+  }
+
+  .patient-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .patient-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
