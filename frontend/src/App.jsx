@@ -9,7 +9,9 @@ import {
 
 import MainLayout from "./layouts/MainLayout";
 import Login from "./pages/Login";
-import EmergencyTriage from "./pages/EmergencyTriage";;
+import EmergencyTriage from "./pages/EmergencyTriage";
+
+import BedManagement from "./pages/BedManagement";
 
 import "./App.css";
 
@@ -642,6 +644,11 @@ function App() {
           <Route
             path="triage"
             element={<EmergencyTriage />}
+          />
+
+          <Route
+            path="beds"
+            element={<BedManagement />}
           />
         </Route>
       </Routes>
